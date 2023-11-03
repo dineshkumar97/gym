@@ -2,58 +2,52 @@ import styles from "./employee.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import Service from '../service/service'
 
 const Employee = () => {
-  // create employee start
+
   const [name, setName] = useState('');
   const [email, setemail] = useState('');
   const [mobile, setmobile] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
-
-
-  const handleSave = () => {
-    setIsSaving(true);
-    axios.post('http://localhost:3000/profile', {
-      name: name,
-      email: email,
-      mobile: mobile,
-    })
-      .then(function (response) {
-        setIsSaving(false);
-        setName('')
-        setemail('')
-        setmobile('')
-      })
-      .catch(function (error) {
-        setIsSaving(false)
-      });
-
-    setCloseModal(true);
-    getApiData();
-
-  }
-  // create employee end
-
-
-  // get employee
-
   const [employeeslist, setemployees] = useState();
 
   useEffect(() => {
     getApiData();
-  },[]);
+  }, []);
 
-  const getApiData =  () => {
-    fetch(' http://localhost:3000/profile')
-    .then(response => response.json())
-    .then(json => {
-      setemployees(json);
-      console.log(json)
-    })
-    .catch(error => console.error(error));
+  const getApiData = async () => {
+    try {
+      const userData = await Service.getEmployeeDetails('/profile');
+      setemployees(userData);
+    } catch (err) {
+    } finally {
+    }
   };
+
+
+  const updateEmployeeDetails = async () => {
+    try {
+      const data = {
+        name: name,
+        email: email,
+        mobile: mobile,
+      }
+      const userData = await Service.updateEmployeeDetails('/profile', data);
+      setemployees(userData);
+    } catch (err) {
+    } finally {
+    }
+  };
+  const handleSave = () => {
+    setIsSaving(true);
+    updateEmployeeDetails();
+    setCloseModal(true);
+    getApiData();
+
+  }
+
 
   if (!employeeslist) return (<div>No Record Found</div>)
   return (
@@ -93,7 +87,7 @@ const Employee = () => {
 
 
         {!closeModal &&
-          <div className="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
