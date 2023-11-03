@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React, { useState, useEffect } from 'react';
 import Service from '../service/service'
+import axios from 'axios'
 
 const Employee = () => {
 
@@ -17,29 +18,52 @@ const Employee = () => {
     getApiData();
   }, []);
 
-  const getApiData = async () => {
-    try {
-      const userData = await Service.getEmployeeDetails('/profile');
-      setemployees(userData);
-    } catch (err) {
-    } finally {
-    }
+  const getApiData = () => {
+    axios.get(Service.getEmployeeDetail)
+      .then((response) => {
+        setemployees(response.data);
+      })
+      .catch((error) => console.log(error));
   };
 
 
-  const updateEmployeeDetails = async () => {
-    try {
-      const data = {
-        name: name,
-        email: email,
-        mobile: mobile,
-      }
-      const userData = await Service.updateEmployeeDetails('/profile', data);
-      setemployees(userData);
-    } catch (err) {
-    } finally {
-    }
+  const updateEmployeeDetails = () => {
+    axios.post(Service.getEmployeeDetail, {
+      name: name,
+      email: email,
+      mobile: mobile
+    })
+      .then((response) => {
+      })
+      .catch((error) => console.log(error));
   };
+
+
+
+  // const getApiData = async () => {
+  //   try {
+  //     const userData = await Service.getEmployeeDetails('/profile');
+  //     setemployees(userData);
+  //   } catch (err) {
+  //   } finally {
+  //   }
+  // };
+
+
+  // const updateEmployeeDetails = async () => {
+  //   try {
+  //     const data = {
+  //       name: name,
+  //       email: email,
+  //       mobile: mobile,
+  //     }
+  //     const userData = await Service.updateEmployeeDetails('/profile', data);
+  //     setemployees(userData);
+  //   } catch (err) {
+  //   } finally {
+  //   }
+  // };
+
   const handleSave = () => {
     setIsSaving(true);
     updateEmployeeDetails();
