@@ -1,4 +1,4 @@
-import styles from "./about.module.scss";
+import styles from "./about.module.scss"; 
 import photo1 from "../../assets/about2.jpg";
 import photo2 from "../../assets/about3.jpg";
 const First = () => {

@@ -5,13 +5,13 @@ import Header from './component/header/Header';
 import Home from './component/Home';
 import Plan from './component/Plan';
 import Contact from './component/Contact';
-import Employee from './component/Employee';
 import Schedule from './component/Schedule';
 import Service from './component/Service';
 import Members from './component/Members';
 import Login from './component/Login';
 import Footer from './component/footer/Footer';
 const About = lazy(() => import("./component/about/About"));
+const Employee = lazy(() => import("./component/employee/Employee"));
 
 const App = () => {
   return (

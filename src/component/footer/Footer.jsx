@@ -7,12 +7,6 @@ const Footer = () => {
 
   return (
     <div className={styles.footer}>
-      <div className={styles.footer_image}>
-        <h2>
-          Follow me on
-         
-        </h2>
-      </div>
       <div className={`${styles.footer_content} container `}>
         <div>
           <div className={styles.logo_holder}>
