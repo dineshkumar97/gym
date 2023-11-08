@@ -1,0 +1,48 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": [
+    {
+      "name": "Dinesh",
+      "email": "dinesh@gmail.com",
+      "mobile": "3456",
+      "id": 1
+    },
+    {
+      "name": "Ponraj",
+      "email": "pon@mail.com",
+      "mobile": "23456",
+      "id": 2
+    },
+    {
+      "name": "Arun",
+      "email": "arun@gmail.com",
+      "mobile": "47389",
+      "id": 3
+    },
+    {
+      "name": "umaiyaraj",
+      "email": "trytr",
+      "mobile": "07871003706",
+      "id": 4
+    },
+    {
+      "name": "umaiyaraj",
+      "email": "sadsad",
+      "mobile": "07871003706",
+      "id": 5
+    }
+  ]
+}
