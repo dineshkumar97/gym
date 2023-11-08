@@ -1,88 +1,102 @@
 import styles from "./employee.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 import React, { useState, useEffect } from 'react';
 import Service from '../service/service'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import axios from 'axios'
+import { ToastContainer } from 'react-toastify';
+import Toaster from '../toaster/Toaster'
 
 const Employee = () => {
-
-  const [name, setName] = useState('');
-  const [email, setemail] = useState('');
-  const [mobile, setmobile] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
-  const [closeModal, setCloseModal] = useState(false);
   const [employeeslist, setemployees] = useState();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [state, setState] = useState({
+    username: '',
+    email: '',
+    mobile: '',
+  });
+
+  // const [validation, setValidation] = useState({
+  //   username: '',
+  //   email: '',
+  //   mobile: '',
+  // });
 
   useEffect(() => {
     getApiData();
   }, []);
 
   const getApiData = () => {
-    axios.get(Service.getEmployeeDetail)
+    axios.get(`${Service.config.api}${'/profile'}`)
       .then((response) => {
         setemployees(response.data);
       })
       .catch((error) => console.log(error));
   };
 
-
-  const updateEmployeeDetails = () => {
-    axios.post(Service.getEmployeeDetail, {
-      name: name,
-      email: email,
-      mobile: mobile
-    })
-      .then((response) => {
-      })
-      .catch((error) => console.log(error));
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setState((prevProps) => ({
+      ...prevProps,
+      [name]: value
+    }));
   };
 
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(state);
+    Service.createEmployee(state)
+      .then((response) => {
+        if (response.status === 201) {
+          setShow(false)
+          axios.get(`${Service.config.api}${'/profile'}`)
+            .then((response) => {
+              setemployees(response.data);
+              Toaster.toastSuccess('Employee create successfully');
+            })
+            .catch((error) => {
+              Toaster.toastError(error);
+            });
+        }
+      })
+  };
 
-  // const getApiData = async () => {
-  //   try {
-  //     const userData = await Service.getEmployeeDetails('/profile');
-  //     setemployees(userData);
-  //   } catch (err) {
-  //   } finally {
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   let errors = validation;
+  //   //first Name validation
+  //   if (!state.username.trim()) {
+  //     errors.username = 'First name is required';
+  //   } else {
+  //     errors.username = '';
   //   }
+  //   // email validation
+  //   const emailCond = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+  //   if (!state.email.trim()) {
+  //     errors.email = 'Email is required';
+  //   } else if (!state.email.match(emailCond)) {
+  //     errors.email = 'Please ingress a valid email address';
+  //   } else {
+  //     errors.email = '';
+  //   }
+  //   return setValidation(errors);
   // };
 
 
-  // const updateEmployeeDetails = async () => {
-  //   try {
-  //     const data = {
-  //       name: name,
-  //       email: email,
-  //       mobile: mobile,
-  //     }
-  //     const userData = await Service.updateEmployeeDetails('/profile', data);
-  //     setemployees(userData);
-  //   } catch (err) {
-  //   } finally {
-  //   }
-  // };
-
-  const handleSave = () => {
-    setIsSaving(true);
-    updateEmployeeDetails();
-    setCloseModal(true);
-    getApiData();
-
-  }
-
-
-  if (!employeeslist) return (<div>No Record Found</div>)
   return (
     <div className={`${styles.m_t_100}`}
       data-aos="zoom-out-down">
       <div className={`${styles.padding_20px}`} >
         <div>
-          <h1>Employee</h1>
-          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Add Employee
-          </button>
+          <h1>Employee  <Button variant="primary" type="button"
+            className={`${styles.float_right_} ${styles.m_t_10}`} onClick={handleShow}>
+            Create Employee
+          </Button></h1>
 
         </div>
 
@@ -97,12 +111,12 @@ const Employee = () => {
               </tr>
             </thead>
             <tbody>
-              {employeeslist.map((emp, index) => (
-                <tr key={emp.id}>
-                  <td>{index + 1}</td>
-                  <td>{emp.name}</td>
-                  <td>{emp.mobile}</td>
-                  <td>{emp.email}</td>
+              {employeeslist?.map((item, index) => (
+                <tr key={index}>
+                  <th>{parseInt(index) + 1}</th>
+                  <th>{item.username}</th>
+                  <th>{item.mobile}</th>
+                  <th>{item.email}</th>
                 </tr>
               ))}
             </tbody>
@@ -110,60 +124,68 @@ const Employee = () => {
         </div>
 
 
-        {!closeModal &&
-          <div className="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">Create Employee</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="name">Name</label>
-                      <input
-                        onChange={(event) => { setName(event.target.value) }}
-                        value={name}
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        name="name" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="description">Email</label>
-                      <input
-                        value={email}
-                        onChange={(event) => { setemail(event.target.value) }}
-                        type="text"
-                        className="form-control"
-                        id="email"
-                        name="email" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="description">mobile</label>
-                      <input
-                        onChange={(event) => { setmobile(event.target.value) }}
-                        value={mobile}
-                        type="text"
-                        className="form-control"
-                        id="mobile"
-                        name="mobile" />
-                    </div>
 
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button className="btn btn-primary" disabled={isSaving}
-                        onClick={handleSave}
-                        type="button">Create</button>
-                    </div>
-                  </form>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="modal-body">
+              <form >
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="username"
+                    value={state.username}
+                    onChange={handleInputChange} />
+                  {/* {validation.username && <p>{validation.username}</p>} */}
                 </div>
-              </div>
+                <div className="form-group">
+                  <label htmlFor="description">Email</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    value={state.email}
+                    onChange={handleInputChange} />
+                  {/* {validation.email && <p>{validation.email}</p>} */}
 
+                </div>
+                <div className="form-group">
+                  <label htmlFor="description">mobile</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="mobile"
+                    value={state.mobile}
+                    onChange={handleInputChange} />
+                </div>
+              </form>
             </div>
-          </div>
-        }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              Create
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     </div>
   );

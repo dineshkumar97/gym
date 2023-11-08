@@ -1,3 +1,4 @@
+import axios from 'axios'
 const config = {
     api: 'http://localhost:3000',
     options: {
@@ -5,44 +6,13 @@ const config = {
     },
 };
 
-const getEmployeeDetail= `${config.api}${'/profile'}`;
-// const getEmployeeDetails = (endpoint) => {
-//     return fetch(`${config.api}${endpoint}`, null)
-//         .then((response) => handleResponse(response))
-//         .then((response) => response)
-//         .catch((error) => {
-//             console.error(error);
-//             throw Error(error);
-//         });
-// };
 
+const createEmployee = (data) => axios.post(`${config.api}${'/profile'}`, data);
 
-// const updateEmployeeDetails = (endpoint, data) => {
-//     return fetch(`${config.api}${endpoint}`, {
-//       method: 'post',
-//       body: data ? JSON.stringify(data) : null,
-//       ...config.options,
-//     })
-//       .then((response) => handleResponse(response))
-//       .then((response) => response)
-//       .catch((error) => {
-//         console.error(error);
-//         throw Error(error);
-//       });
-//   };
-
-// const handleResponse = (response) => {
-//     if (response.status === 200) {
-//         return response.json();
-//     } else {
-//         throw Error(response.json() | 'error');
-//     }
-// };
-
-const exportedObject = {
-    // getEmployeeDetails,
-    // updateEmployeeDetails,
-    getEmployeeDetail
+const employeeObject = {
+    createEmployee,
+    config
 };
 
-export default exportedObject;
+
+export default employeeObject;

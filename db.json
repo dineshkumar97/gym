@@ -1,0 +1,132 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": [
+    {
+      "username": "Dinesh",
+      "email": "kumar@gmal.com",
+      "mobile": "83833838",
+      "id": 1
+    },
+    {
+      "username": "s",
+      "email": "",
+      "mobile": "",
+      "id": 2
+    },
+    {
+      "username": "Test toaster",
+      "email": "",
+      "mobile": "",
+      "id": 3
+    },
+    {
+      "username": "sssss",
+      "email": "",
+      "mobile": "",
+      "id": 4
+    },
+    {
+      "username": "s",
+      "email": "",
+      "mobile": "",
+      "id": 5
+    },
+    {
+      "username": "saw",
+      "email": "",
+      "mobile": "",
+      "id": 6
+    },
+    {
+      "username": "p",
+      "email": "",
+      "mobile": "",
+      "id": 7
+    },
+    {
+      "username": "s",
+      "email": "",
+      "mobile": "",
+      "id": 8
+    },
+    {
+      "username": "ddd",
+      "email": "",
+      "mobile": "",
+      "id": 9
+    },
+    {
+      "username": "s",
+      "email": "",
+      "mobile": "",
+      "id": 10
+    },
+    {
+      "username": "",
+      "email": "",
+      "mobile": "",
+      "id": 11
+    },
+    {
+      "username": "d",
+      "email": "",
+      "mobile": "",
+      "id": 12
+    },
+    {
+      "username": "dsq",
+      "email": "",
+      "mobile": "",
+      "id": 13
+    },
+    {
+      "username": "lllllllllll555",
+      "email": "",
+      "mobile": "",
+      "id": 14
+    },
+    {
+      "username": "",
+      "email": "",
+      "mobile": "",
+      "id": 15
+    },
+    {
+      "username": "l",
+      "email": "",
+      "mobile": "",
+      "id": 16
+    },
+    {
+      "username": "",
+      "email": "",
+      "mobile": "",
+      "id": 17
+    },
+    {
+      "username": "ok",
+      "email": "",
+      "mobile": "",
+      "id": 18
+    },
+    {
+      "username": "yeyeye",
+      "email": "",
+      "mobile": "",
+      "id": 19
+    }
+  ]
+}
