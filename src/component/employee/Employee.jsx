@@ -13,22 +13,87 @@ const Employee = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [state, setState] = useState({
+  const [employeeFormValue, setEmployeeForm] = useState({
     username: '',
-    email: '',
     mobile: '',
+    email: ''
   });
+  const [errors, setErrors] = useState({});
 
-  // const [validation, setValidation] = useState({
-  //   username: '',
-  //   email: '',
-  //   mobile: '',
-  // });
 
   useEffect(() => {
     getApiData();
   }, []);
 
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEmployeeForm((prevProps) => ({
+      ...prevProps,
+      [name]: value
+    }));
+    
+  };
+
+
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!employeeFormValue.username) {
+      newErrors.username = "UserName is required";
+      isValid = false;
+    } else if (employeeFormValue.username.length < 3) {
+      newErrors.username = 'UserName should be greater than 3 characters!';
+      isValid = false;
+    }
+    if (!employeeFormValue.mobile) {
+      newErrors.mobile = "Mobile no. is required";
+      isValid = false;
+    } else if (employeeFormValue.mobile.length < 3) {
+      newErrors.mobile = 'Mobile no. should be greater than 4 ';
+      isValid = false;
+    }
+    if (!employeeFormValue.email) {
+      newErrors.email = 'Email is required';
+      isValid = false;
+    } else if (!regex.test(employeeFormValue.email)) {
+      newErrors.email = 'Please enter vaild email';
+      isValid = false;
+    }
+    setErrors(newErrors);
+    return isValid;
+  };
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(employeeFormValue);
+    if (validateForm()) {
+      Service.createEmployee(employeeFormValue)
+        .then((response) => {
+          if (response.status === 201) {
+            setShow(false)
+            axios.get(`${Service.config.api}${'/profile'}`)
+              .then((response) => {
+                setemployees(response.data);
+                Toaster.toastSuccess('Employee create successfully');
+                setEmployeeForm({
+                  username: '',
+                  mobile: '',
+                  email: ''
+                });
+              })
+              .catch((error) => {
+                Toaster.toastError(error);
+              });
+          }
+        })
+    } else {
+    }
+
+  };
   const getApiData = () => {
     axios.get(`${Service.config.api}${'/profile'}`)
       .then((response) => {
@@ -36,56 +101,6 @@ const Employee = () => {
       })
       .catch((error) => console.log(error));
   };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevProps) => ({
-      ...prevProps,
-      [name]: value
-    }));
-  };
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(state);
-    Service.createEmployee(state)
-      .then((response) => {
-        if (response.status === 201) {
-          setShow(false)
-          axios.get(`${Service.config.api}${'/profile'}`)
-            .then((response) => {
-              setemployees(response.data);
-              Toaster.toastSuccess('Employee create successfully');
-            })
-            .catch((error) => {
-              Toaster.toastError(error);
-            });
-        }
-      })
-  };
-
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   let errors = validation;
-  //   //first Name validation
-  //   if (!state.username.trim()) {
-  //     errors.username = 'First name is required';
-  //   } else {
-  //     errors.username = '';
-  //   }
-  //   // email validation
-  //   const emailCond = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
-  //   if (!state.email.trim()) {
-  //     errors.email = 'Email is required';
-  //   } else if (!state.email.match(emailCond)) {
-  //     errors.email = 'Please ingress a valid email address';
-  //   } else {
-  //     errors.email = '';
-  //   }
-  //   return setValidation(errors);
-  // };
 
 
   return (
@@ -123,8 +138,6 @@ const Employee = () => {
           </table>
         </div>
 
-
-
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Create Employee</Modal.Title>
@@ -138,9 +151,9 @@ const Employee = () => {
                     className="form-control"
                     type="text"
                     name="username"
-                    value={state.username}
+                    value={employeeFormValue.username}
                     onChange={handleInputChange} />
-                  {/* {validation.username && <p>{validation.username}</p>} */}
+                  <p className={`${styles.form_error}`}>{errors.username}</p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="description">Email</label>
@@ -148,19 +161,21 @@ const Employee = () => {
                     type="text"
                     className="form-control"
                     name="email"
-                    value={state.email}
+                    value={employeeFormValue.email}
                     onChange={handleInputChange} />
-                  {/* {validation.email && <p>{validation.email}</p>} */}
+                  <p className={`${styles.form_error}`}>{errors.email}</p>
 
                 </div>
                 <div className="form-group">
-                  <label htmlFor="description">mobile</label>
+                  <label htmlFor="description">Mobile</label>
                   <input
                     type="text"
                     className="form-control"
                     name="mobile"
-                    value={state.mobile}
+                    value={employeeFormValue.mobile}
                     onChange={handleInputChange} />
+                  <p className={`${styles.form_error}`}>{errors.mobile}</p>
+
                 </div>
               </form>
             </div>
