@@ -12,7 +12,6 @@ const Employee = () => {
   const [employeeslist, setemployees] = useState();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [employeeFormValue, setEmployeeForm] = useState({
     username: '',
     mobile: '',
@@ -32,33 +31,45 @@ const Employee = () => {
       ...prevProps,
       [name]: value
     }));
-    
+
   };
 
-
-
+  const openForm = () => {
+    setShow(true);
+    setErrors({});
+    emptyFormValue();
+  }
+ 
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const cha =/^[a-zA-Z ]*$/;
+    const mobileNoPattern = /^[0-9\b]+$/;
     if (!employeeFormValue.username) {
       newErrors.username = "UserName is required";
       isValid = false;
     } else if (employeeFormValue.username.length < 3) {
       newErrors.username = 'UserName should be greater than 3 characters!';
       isValid = false;
+    } else if (!cha.test(employeeFormValue.username)) {
+      newErrors.username = 'UserName only allow characters !';
+      isValid = false;
     }
     if (!employeeFormValue.mobile) {
       newErrors.mobile = "Mobile no. is required";
       isValid = false;
-    } else if (employeeFormValue.mobile.length < 3) {
-      newErrors.mobile = 'Mobile no. should be greater than 4 ';
+    } else if (employeeFormValue.mobile.length <= 9) {
+      newErrors.mobile = 'Mobile no. should be 10 digits';
+      isValid = false;
+    }else if (!mobileNoPattern.test(employeeFormValue.mobile)) {
+      newErrors.mobile = 'Mobile no. only allow numbers';
       isValid = false;
     }
     if (!employeeFormValue.email) {
       newErrors.email = 'Email is required';
       isValid = false;
-    } else if (!regex.test(employeeFormValue.email)) {
+    } else if (!emailPattern.test(employeeFormValue.email)) {
       newErrors.email = 'Please enter vaild email';
       isValid = false;
     }
@@ -79,11 +90,7 @@ const Employee = () => {
               .then((response) => {
                 setemployees(response.data);
                 Toaster.toastSuccess('Employee create successfully');
-                setEmployeeForm({
-                  username: '',
-                  mobile: '',
-                  email: ''
-                });
+                emptyFormValue();
               })
               .catch((error) => {
                 Toaster.toastError(error);
@@ -92,8 +99,16 @@ const Employee = () => {
         })
     } else {
     }
-
   };
+
+  const emptyFormValue = () => {
+    setEmployeeForm({
+      username: '',
+      mobile: '',
+      email: ''
+    });
+  }
+
   const getApiData = () => {
     axios.get(`${Service.config.api}${'/profile'}`)
       .then((response) => {
@@ -109,7 +124,7 @@ const Employee = () => {
       <div className={`${styles.padding_20px}`} >
         <div>
           <h1>Employee  <Button variant="primary" type="button"
-            className={`${styles.float_right_} ${styles.m_t_10}`} onClick={handleShow}>
+            className={`${styles.float_right_} ${styles.m_t_10}`} onClick={openForm}>
             Create Employee
           </Button></h1>
 
@@ -149,6 +164,7 @@ const Employee = () => {
                   <label htmlFor="name">Name</label>
                   <input
                     className="form-control"
+                    autoComplete="off"
                     type="text"
                     name="username"
                     value={employeeFormValue.username}
@@ -161,6 +177,7 @@ const Employee = () => {
                     type="text"
                     className="form-control"
                     name="email"
+                    autoComplete="off"
                     value={employeeFormValue.email}
                     onChange={handleInputChange} />
                   <p className={`${styles.form_error}`}>{errors.email}</p>
@@ -172,6 +189,8 @@ const Employee = () => {
                     type="text"
                     className="form-control"
                     name="mobile"
+                    autoComplete="off"
+                    maxLength={10}
                     value={employeeFormValue.mobile}
                     onChange={handleInputChange} />
                   <p className={`${styles.form_error}`}>{errors.mobile}</p>
