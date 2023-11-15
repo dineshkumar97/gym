@@ -1,0 +1,286 @@
+body {
+    background-color: #fff;
+    font-family: Verdana;
+    font-weight: 600;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex-grow: 1;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+/* --------- Non-flexbox related styles --------- */
+.child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ffe8c3;
+    background-color: #eab768;
+    border-radius: 10px;
+    border: 10px solid #f5cc8b;
+}
+
+.main_content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+    padding: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ffe8c3;
+    background-color: #eab768;
+    border-radius: 10px;
+    border: 10px solid #f5cc8b;
+}
+
+
+
+.footer {
+    background-color: var(--three);
+    color: var(--four);
+}
+
+.footer_image {
+    // background-image: url(../../../assets/footer.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer_image h2,
+.footer_image a {
+    color: var(--white);
+}
+
+.footer_image a {
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+.footer_content {
+    padding: 50px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 40px;
+}
+
+.footer_content>div {
+    padding: 20px;
+}
+
+.footer_content>div:first-of-type img {
+    width: 30px;
+}
+
+.logo_holder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+}
+
+.footer_content>div:first-of-type>p {
+    margin: 20px 0;
+}
+
+.info {
+    padding: 10px;
+    border: 1px solid var(--four);
+    background-color: var(--five);
+}
+
+.info span {
+    color: var(--one);
+    display: block;
+    margin: 10px 0;
+}
+
+.footer_content>div:nth-child(2) ul li {
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.footer_content>div:nth-child(2) ul li:first-of-type {
+    color: var(--white);
+    cursor: none;
+}
+
+.footer_content>div:nth-child(2) ul li:hover {
+    color: var(--white);
+}
+
+.footer_content>div:last-of-type h3 {
+    color: var(--white);
+}
+
+.footer_content>div:last-of-type input {
+    display: block;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--five);
+    border: none;
+    outline: none;
+}
+
+.footer_content>div:last-of-type button {
+    background-color: var(--one);
+    margin-bottom: 20px;
+}
+
+.footer_content>div:last-of-type button:hover {
+    color: var(--white);
+}
+
+.footer_content>div:last-of-type button::before {
+    background-color: var(--three);
+}
+
+.footer_icons i {
+    font-size: 20px;
+    color: var(--white);
+}
+
+.footer_icons i:first-of-type {
+    margin-right: 10px;
+}
+
+.footer_icons i:hover {
+    color: var(--four);
+}
+
+@media (max-width: 380px) {
+    .footer_content {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+
+
+/**
+ * More sensible default box-sizing:
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ */
+
+html {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+* {
+
+    &,
+    &:before,
+    &:after {
+        box-sizing: inherit;
+    }
+
+}
+
+.site-header,
+.site-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.site_header {
+    height: 100px;
+    background-color: #e7eaed;
+}
+
+.site_footer {
+    background-color: #333536;
+    height: 200px;
+    color: #fff;
+}
+
+
+.content_area {
+    display: flex;
+}
+
+.site_main {
+    margin-top: 110px;
+    width: 100%;
+    padding: 0px 15px;
+    margin-left: 285px;
+}
+
+.sidebar_area {
+    background-color: #4a98d2;
+    // position: relative;
+    position: fixed;
+    height: 100%;
+    width: 290px;
+}
+
+.side_navigation {
+
+    &.fixed {
+        position: fixed;
+        top: 0;
+        width: 290px;
+    }
+
+    &.bottom {
+        position: absolute;
+        bottom: 0;
+        top: auto;
+        width: 290px;
+    }
+
+    .menu {
+        padding-top: 15px;
+        list-style-type: none;
+        margin-top: 100px;
+    }
+
+    .menu_item {
+        position: relative;
+
+
+        // &:before {
+        //     content: '';
+        //     position: absolute;
+        //     top: 0;
+        //     left: 0;
+        //     bottom: 0;
+        //     width: 0;
+        //     background-color: #5dbaff;
+        //     transition: width .3s ease-in;
+        // }
+
+        // &:hover {
+        //     &:before {
+        //         width: 100%;
+        //     }
+        // }
+
+        span {
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+            display: block;
+            padding: 18px 50px;
+        }
+    }
+}

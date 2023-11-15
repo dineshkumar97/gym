@@ -1,10 +1,7 @@
-import styles from "./footer.module.scss";
+import styles from "../webiste.module.scss";
 import logoIcon from "../../assets/Icon.png";
-// import { useNavigate } from "react-router";
 
 const Footer = () => {
-  // const navigate = useNavigate();
-
   return (
     <div className={styles.footer}>
       <div className={`${styles.footer_content} container `}>
