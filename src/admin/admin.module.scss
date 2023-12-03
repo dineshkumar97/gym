@@ -372,26 +372,26 @@ body {
 // 
 
 
-:root{
-    --poppins:'Poppins',sans-serif;
-    --lato:'Lato','sans-serif';
+:root {
+    --poppins: 'Poppins', sans-serif;
+    --lato: 'Lato', 'sans-serif';
 
-    --light:#F9F9F9;
-    --blue:#3C91E6;
-    --light-blue:#CFE8FF;
-    --grey:#eee;
-    --dark:#342E37;
-    --dark-grey:#AAAAAA;
-    --red:#DB504A;
-    --yellow:#FFCE26;
-    --light-yellow:#FFF2C6;
-    --orange:#FD7238;
-    --light-orange:#FFE0D3;
- }
+    --light: #F9F9F9;
+    --blue: #3C91E6;
+    --light-blue: #CFE8FF;
+    --grey: #eee;
+    --dark: #342E37;
+    --dark-grey: #AAAAAA;
+    --red: #DB504A;
+    --yellow: #FFCE26;
+    --light-yellow: #FFF2C6;
+    --orange: #FD7238;
+    --light-orange: #FFE0D3;
+}
 
- body{
+body {
     background: var(--grey);
- }
+}
 
 #sidebar {
     position: fixed;
@@ -402,6 +402,12 @@ body {
     background: var(--light);
     z-index: 1000;
     font-family: 'Courier New', Courier, monospace;
+    transition: .3s ease;
+}
+
+.hide {
+    width: 60px;
+    background: red;
 }
 
 #sidebar .brand {
@@ -410,21 +416,22 @@ body {
     height: 56px;
     display: flex;
     align-items: center;
-    color:var(--blue);
+    color: var(--blue);
 }
 
-#sidebar .brand .bx{
+#sidebar .brand .bx {
     min-width: 60px;
     display: flex;
     justify-content: center;
 }
-.bx_icon{
-padding: 0px 10px;
+
+.bx_icon {
+    padding: 0px 10px;
 }
 
 #sidebar .side_menu {
-   width: 100%;
-   margin-top: 48px;
+    width: 100%;
+    margin-top: 48px;
 }
 
 #sidebar .side_menu li {
@@ -433,9 +440,9 @@ padding: 0px 10px;
     margin-left: 6px;
     border-radius: 48px 0 0 48px;
     padding: 4px;
- }
+}
 
- #sidebar .side_menu li p {
+#sidebar .side_menu li p {
     width: 100%;
     height: 100%;
     background: var(--light);
@@ -443,14 +450,14 @@ padding: 0px 10px;
     align-items: center;
     border-radius: 48px;
     color: var(--dark);
- }
+}
 
- #sidebar .side_menu li.active {
+#sidebar .side_menu li.active {
     background: var(--grey);
     position: relative;
- }
+}
 
- #sidebar .side_menu li.active::before {
+#sidebar .side_menu li.active::before {
     content: '';
     position: absolute;
     width: 40px;
@@ -460,8 +467,9 @@ padding: 0px 10px;
     right: 0;
     box-shadow: 20px 20px 0 var(--grey);
     z-index: -1;
- }
- #sidebar .side_menu li.active::after {
+}
+
+#sidebar .side_menu li.active::after {
     content: '';
     position: absolute;
     width: 40px;
@@ -471,24 +479,26 @@ padding: 0px 10px;
     right: 0;
     box-shadow: 20px -20px 0 var(--grey);
     z-index: -1;
- }
- #sidebar .side_menu.top li p:hover {
+}
+
+#sidebar .side_menu.top li p:hover {
     color: var(--blue);
- }
- #sidebar .side_menu li a .bx {
-   min-width: calc(60px - ((4px + 6px) * 2));
-   display: flex;
-   justify-content: center;
- }
+}
+
+#sidebar .side_menu li a .bx {
+    min-width: calc(60px - ((4px + 6px) * 2));
+    display: flex;
+    justify-content: center;
+}
 
 /*content*/
-#content{
+#content {
     position: relative;
     width: calc(100% - 280px);
     left: 280px;
 }
 
-#content nav{
+#content nav {
     height: 56px;
     background: var(--light);
     padding: 0 24px;
@@ -496,6 +506,18 @@ padding: 0px 10px;
     align-items: center;
     grid-gap: 24px;
     font-family: var(--lato);
+    position: relative;
+}
+
+#content nav::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: -40px;
+    left: 0;
+    border-radius: 50%;
+    box-shadow: -20px -20px 0 var(--light);
 }
 
 #content nav a {
@@ -503,8 +525,89 @@ padding: 0px 10px;
 }
 
 .cursor {
-   cursor: pointer !important;
+    cursor: pointer !important;
+}
+
+#content nav .nav_link {
+    font-family: 16px;
+    transform: .3s ease;
+}
+
+#content nav .nav_link:hover {
+    color: var(--blue);
+
+}
+
+#content nav form {
+    max-width: 400px;
+    width: 100%;
+    margin-right: auto;
+}
+
+#content nav form .form_input {
+    display: flex;
+    align-items: center;
+    height: 36px;
 }
 
 
+#content nav form .form_input input {
+    flex-grow: 1;
+    padding: 0 16px;
+    height: 100%;
+    border: none;
+    background: var(--grey);
+    border-radius: 36px 0 0 36px;
+    outline: none;
+}
 
+#content nav form .form_input button {
+    width: 36px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--blue);
+    color: var(--light);
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 0 36px 36px 0;
+    cursor: pointer;
+
+}
+
+#content nav .notification {
+    font-size: 20px;
+    position: relative;
+}
+
+#content nav .notification .num {
+    position: absolute;
+    top: 0px;
+    right: 0%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--light);
+    background: var(--red);
+    color: var(--light);
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#content .profileimage {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+
+}
+
+.your_className{
+    display: none;
+}
